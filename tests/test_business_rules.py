@@ -1,9 +1,12 @@
 from business_rules import (
     calculate_license_cost,
     calculate_license_total,
+    format_license_line,
     get_seat_discount,
     gets_trainer,
+    largest_license,
     needs_contract_review,
+    total_licensed,
 )
 
 
@@ -94,3 +97,61 @@ def test_trainer_above_total_limit():
 
 def test_trainer_when_both_conditions_qualify():
     assert gets_trainer(25, 3000.01) is True
+
+
+def test_total_licensed_with_two_orders():
+    orders = [
+        {
+            "company": "Pine Books",
+            "seat_price": 40.00,
+            "seats": 5,
+            "education": False,
+        },
+        {
+            "company": "Redwood Cargo",
+            "seat_price": 45.00,
+            "seats": 60,
+            "education": False,
+        },
+    ]
+    assert round(total_licensed(orders), 2) == 2771.00
+
+
+def test_total_licensed_with_empty_list():
+    assert round(total_licensed([]), 2) == 0.00
+
+
+def test_largest_license_when_largest_is_in_middle():
+    orders = [
+        {
+            "company": "Pine Books",
+            "seat_price": 40.00,
+            "seats": 5,
+            "education": False,
+        },
+        {
+            "company": "Redwood Cargo",
+            "seat_price": 45.00,
+            "seats": 60,
+            "education": False,
+        },
+        {
+            "company": "Quarry School",
+            "seat_price": 35.00,
+            "seats": 12,
+            "education": True,
+        },
+    ]
+    assert largest_license(orders) == "Redwood Cargo"
+
+
+def test_format_line_with_neither_flag():
+    assert format_license_line("Pine Books", 260.00, False, False) == (
+        "Pine Books: $260.00 | contract review: no | trainer: no"
+    )
+
+
+def test_format_line_with_both_flags():
+    assert format_license_line("Summit College", 6300.00, True, True) == (
+        "Summit College: $6300.00 | contract review: yes | trainer: yes"
+    )
