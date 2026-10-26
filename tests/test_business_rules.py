@@ -155,3 +155,25 @@ def test_format_line_with_both_flags():
     assert format_license_line("Summit College", 6300.00, True, True) == (
         "Summit College: $6300.00 | contract review: yes | trainer: yes"
     )
+
+
+def test_largest_license_returns_first_company_in_tie():
+    orders = [
+        {
+            "company": "First Company",
+            "seat_price": 40.00,
+            "seats": 5,
+            "education": False,
+        },
+        {
+            "company": "Second Company",
+            "seat_price": 40.00,
+            "seats": 5,
+            "education": False,
+        },
+    ]
+    assert largest_license(orders) == "First Company"
+
+
+def test_largest_license_with_empty_list():
+    assert largest_license([]) == ""

@@ -43,7 +43,7 @@ licensed_total = total_licensed(orders)
 average_total = licensed_total / order_count
 largest_company = largest_license(orders)
 
-print(f"OrdersL {order_count}")
+print(f"Orders: {order_count}")
 print(f"Total licensed: ${licensed_total:.2f}")
 print(f"Average license total: ${average_total:.2f}")
 print(f"Largest license total: {largest_company}")
